@@ -632,8 +632,11 @@ namespace Engarde_Synthesis
         {
             List<IWeaponGetter> weaponsToPatch = state.LoadOrder.PriorityOrder.Weapon().WinningOverrides()
                 .AsParallel()
-                .Where(weapon => weapon.Template.IsNull && weapon.BasicStats != null && weapon.Data != null &&
-                                 !weapon.EditorID!.StartsWith("REQ_Dummy_"))
+                //.Where(weapon => weapon.Template.IsNull && weapon.BasicStats != null && weapon.Data != null &&
+                                 //!weapon.EditorID!.StartsWith("REQ_Dummy_"))
+                .Where(weapon => (weapon.Template is null || weapon.Template.IsNull) && weapon.BasicStats != null && weapon.Data != null &&
+                 !weapon.EditorID!.StartsWith("REQ_Dummy_"))
+                
                 .ToList();
             foreach (var weaponCopy in weaponsToPatch.Select(
                 weapon => state.PatchMod.Weapons.GetOrAddAsOverride(weapon)))
